@@ -18,13 +18,6 @@ class CreateIconGroupsTable extends Migration
             $table->string('name')->unique();
             $table->timestamps();
         });
-
-        // Schema::table('users', function(Blueprint $table) {
-        //     $table->foreign('iconGroup')->references('id')->on('iconGroups');
-        // });
-        // Schema::table('icons', function(Blueprint $table) {
-        //     $table->foreign('iconGroup')->references('id')->on('iconGroups');
-        // });
     }
 
     /**
