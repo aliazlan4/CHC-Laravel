@@ -7,6 +7,7 @@ use App\iconGroup;
 
 use File;
 use Cache;
+use Session;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Image;
@@ -50,10 +51,15 @@ class iconController extends Controller
     }
 
     public function saveOtherSettings(Request $request){
-        Cache::forever('maxIconsOnScreen', $request->maxIconsonScreen);
+        Cache::forever('numberOfRows', $request->numberOfRows);
+        Cache::forever('numberOfColumns', $request->numberOfColumns);
         Cache::forever('chcRounds', $request->chcRounds);
+        Cache::forever('chcWrongTrys', $request->chcWrongTrys);
         Cache::forever('loginSessionTimeout', $request->loginSessionTimeout);
+        Cache::forever('chcCentroidThreshold', $request->chcCentroidThreshold);
+        Cache::forever('chcBackground', $request->chcBackground);
 
+        session()->flush();
         return back();
     }
 }

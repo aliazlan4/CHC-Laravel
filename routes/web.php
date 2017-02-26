@@ -27,6 +27,7 @@ Route::get('/admin', 'adminController@index');
 Route::get('/login', 'loginController@showUsernameScreen');
 Route::post('/login/checkUsername', 'loginController@checkUsername');
 Route::get('/login/authenticate', 'loginController@authenticateUser');
+Route::post('/login/authenticate', 'loginController@authenticateUser');
 Route::get('/login/passwordImage', 'loginController@passwordImage');
 
 Route::get('/home', 'HomeController@index');
@@ -36,6 +37,11 @@ Route::post('/icons/addIconGroup', 'iconController@addIconGroup');
 Route::post('/icons/addIcons', 'iconController@addIcons');
 Route::post('/icons/otherSettings', 'iconController@saveOtherSettings');
 
-Route::get('/etc', 'helperController@getAllIcons');
+
+
+Route::get('/etc', 'helperController@getCenter');
+Route::get('/etc1', function() {
+    return time();
+});
 
 ?>
