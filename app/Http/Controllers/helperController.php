@@ -79,6 +79,8 @@ class helperController extends Controller
             }
         }
 
+        $this->createConvexHull();
+
         $img->polygon($this->getPointsArray(), function ($draw) {
             $draw->border(1, '#ff0000');
         });
@@ -92,8 +94,8 @@ class helperController extends Controller
     }
 
     public function getPointsArray(){
-        $x_array = session('passX');
-        $y_array = session('passY');
+        $x_array = session('passHullX');
+        $y_array = session('passHullY');
         $array = array();
 
         for($i = 0; $i < count($x_array); $i++)
@@ -103,17 +105,46 @@ class helperController extends Controller
     }
 
     public function checkLoginAttempt($click){
-        $center = $this->getCenter();
-        $distance = $this->getDistance($click, $center);
-        if($distance <= Cache::get('chcCentroidThreshold', 100))
-            return true;
-        return false;
+        $scheme = User::where('username', session('username'))->first()->passwordScheme;
+
+        switch ($scheme){
+            case 'chc':
+                return true;
+            case 'cochc':
+                $center = $this->getCenter();
+                $distance = $this->getDistance($click, $center);
+                if($distance <= (Cache::get('chcCentroidThreshold', 100) / 2))
+                    return true;
+                return false;
+            default:
+                return false;
+        }
+    }
+
+    public function createConvexHull(){
+        $x_array = session('passX');
+        $y_array = session('passY');
+        $array = array();
+
+        for($i = 0; $i < count($x_array); $i++)
+            array_push($array, array($x_array[$i], $y_array[$i]));
+
+        $hull = new convexHullController( $array );
+        $array = $hull->getHullPoints();
+
+        session()->forget('passHullX');
+        session()->forget('passHullY');
+
+        for($i = 0; $i < count($array); $i++){
+            session()->push('passHullX', $array[$i][0]);
+            session()->push('passHullY', $array[$i][1]);
+        }
     }
 
     function getCenter() {
         $polygon = array();
-        $x_array = session('passX');
-        $y_array = session('passY');
+        $x_array = session('passHullX');
+        $y_array = session('passHullY');
 
         for($i = 0; $i < count($x_array); $i++)
             array_push($polygon, array($x_array[$i], $y_array[$i]));

@@ -36,7 +36,7 @@ class loginController extends helperController
             return redirect('login');
         }
 
-        else if((time() - session('chcStartTime')) >= Cache::get('loginSessionTimeout')){
+        else if((time() - session('chcStartTime')) >= Cache::get('loginSessionTimeout', 60)){
             session()->flush();
             return redirect('login')->withErrors(['timeout'=>'Session timeout']);
         }

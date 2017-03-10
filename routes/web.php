@@ -39,7 +39,7 @@ Route::post('/icons/otherSettings', 'iconController@saveOtherSettings');
 
 
 
-Route::get('/etc', 'helperController@getCenter');
+Route::get('/etc', 'helperController@createConvexHull');
 Route::get('/etc1', function() {
     return time();
 });
