@@ -57,7 +57,7 @@ class helperController extends Controller
         $columnSize = floor(session('screenWidth') / $columns);
         $rowSize = floor(session('screenHeight') / $rows);
 
-        $img = Image::canvas(session('screenWidth'), session('screenHeight'), '#' . Cache::get('chcBackground', 'FFFFFF'));
+        $img = Image::canvas(session('screenWidth'), session('screenHeight'), '#' . Cache::get('chcBackground', '333333'));
 
         $count = 0;
         for($i = 0; $i < $rows; $i++){
@@ -65,8 +65,8 @@ class helperController extends Controller
                 $x_size = $rowSize-5;
                 $y_size = $rowSize-5;
                 $offset = ($columnSize - $x_size ) / 2;
-                $x = ($j * $columnSize) + $offset + 5;
-                $y = $i * $rowSize + 5;
+                $x = round(($j * $columnSize) + $offset + 5);
+                $y = round($i * $rowSize + 5);
                 $temp = Image::make(storage_path('icons/' . $icons->get($count)->name))->resize($x_size, $y_size);
                 $img->insert($temp, 'top-left', $x, $y);
 
@@ -78,6 +78,18 @@ class helperController extends Controller
                 $count++;
             }
         }
+        $text1 = "Round Number: " . session('chcRound') . "/" . Cache::get('chcRounds', 5);
+        $text2 = "Wrong Trys: " . session('chcWrongTrys') . "/" . Cache::get('chcWrongTrys', 3);
+        $img->text($text1, 25, 30, function($font) {
+            $font->file(public_path('fonts/Raleway/Raleway-Black.ttf'));
+            $font->size(30);
+            $font->color('#fdf6e3');
+        });
+        $img->text($text2, 25, 65, function($font) {
+            $font->file(public_path('fonts/Raleway/Raleway-Black.ttf'));
+            $font->size(30);
+            $font->color('#fdf6e3');
+        });
 
         $this->createConvexHull();
 

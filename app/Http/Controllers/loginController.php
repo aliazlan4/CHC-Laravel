@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 class loginController extends helperController
 {
     public function showUsernameScreen(){
+        // Return user to home if he is already logged in!
+        
         return view('chcAuth.login_username');
     }
 

@@ -25,10 +25,14 @@ Route::get('/admin', 'adminController@index');
 
 //Auth::routes();
 Route::get('/login', 'loginController@showUsernameScreen');
-Route::post('/login/checkUsername', 'loginController@checkUsername');
+Route::post('/login', 'loginController@checkUsername');
 Route::get('/login/authenticate', 'loginController@authenticateUser');
 Route::post('/login/authenticate', 'loginController@authenticateUser');
 Route::get('/login/passwordImage', 'loginController@passwordImage');
+
+Route::get('/register', 'registerController@showRegisterScreen');
+Route::post('/register', 'registerController@checkInfo');
+Route::get('/register/chooseScheme', 'registerController@showSchemes');
 
 Route::get('/home', 'HomeController@index');
 
@@ -39,7 +43,7 @@ Route::post('/icons/otherSettings', 'iconController@saveOtherSettings');
 
 
 
-Route::get('/etc', 'helperController@createConvexHull');
+Route::get('/etc', 'helperController@passwordImage');
 Route::get('/etc1', function() {
     return time();
 });

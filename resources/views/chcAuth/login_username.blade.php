@@ -18,22 +18,23 @@
                             <strong>Incorrect Password!</strong>
                         </div>
                     @endif
-                    {!! Form::open(array('url'=>'login/checkUsername','method'=>'POST', 'class'=>'form-horizontal', 'id'=>'loginForm')) !!}
+                    {!! Form::open(array('url'=>'login','method'=>'POST', 'class'=>'form-horizontal', 'id'=>'loginForm')) !!}
                         <div class="form-group {{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username" class="col-sm-4 control-label">Username: </label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="username" name="username" value="{!! Cache::get('username') !!}" autofocus>
+                                <input type="text" class="form-control" id="username" name="username" value="{!! session('username') !!}" autofocus>
+
+                                @if ($errors->has('username'))
+                                    <span class="col-sm-offset-4 col-sm-6">
+                                        <strong>Username Doesn't Exist</strong>
+                                    </span>
+                                @endif
                             </div>
-                            @if ($errors->has('username'))
-                                <span class="col-sm-offset-4 col-sm-6">
-                                    <strong>Username Doesn't Exist</strong>
-                                </span>
-                            @endif
                         </div>
                         <input type="hidden" id="screenWidth" name="screenWidth">
                         <input type="hidden" id="screenHeight" name="screenHeight">
                         <div class="col-sm-offset-4 col-sm-6">
-                            <button type="submit" class="btn btn-default">Next</button>
+                            <button type="submit" class="btn btn-primary">Next</button>
                         </div>
                     {!! Form::close() !!}
 

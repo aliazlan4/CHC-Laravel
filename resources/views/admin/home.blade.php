@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <label for="chcBackground" class="col-sm-4 control-label">CHC Background Color: </label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="chcBackground" name="chcBackground" value="{!! Cache::get('chcBackground', 'FFFFFF') !!}">
+                                <input type="text" class="form-control" id="chcBackground" name="chcBackground" value="{!! Cache::get('chcBackground', '333333') !!}">
                             </div>
                         </div>
                         <div class="col-sm-offset-4 col-sm-6">
