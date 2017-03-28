@@ -20,13 +20,13 @@
                     <ul><h4>Security <span class="badge">Low</span></h4></ul>
                 </div>
                 <div class="panel-footer text-center">
-                    <button type="button" class="btn btn-success btn-lg">Select</button>
+                    <button type="button" class="btn btn-success btn-lg" onclick="setScheme('CHC');">Select</button>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="panel panel-primary">
-                <div class="panel-heading text-center"><h4 class="panel-title"><strong>Co-CHC</strong></h4></div>
+                <div class="panel-heading text-center"><h4 class="panel-title"><strong>Co-CHC</strong></h4><small>Recommended</small></div>
                 <div class="panel-body">
                     <img src='https://speckycdn-sdm.netdna-ssl.com/wp-content/uploads/2014/06/new_icon_set_14.jpg' width='100%'>
                     <h4>You have to click near the center of the imaginary convex hull formed by your pass icons.</h4>
@@ -34,7 +34,7 @@
                     <ul><h4>Security <span class="badge">Medium</span></h4></ul>
                 </div>
                 <div class="panel-footer text-center">
-                    <button type="button" class="btn btn-success btn-lg">Select</button>
+                    <button type="button" class="btn btn-success btn-lg" onclick="setScheme('coCHC');">Select</button>
                 </div>
             </div>
         </div>
@@ -48,10 +48,22 @@
                     <ul><h4>Security <span class="badge">High</span></h4></ul>
                 </div>
                 <div class="panel-footer text-center">
-                    <button type="button" class="btn btn-success btn-lg">Select</button>
+                    <button type="button" class="btn btn-success btn-lg" onclick="setScheme('rogueCHC');">Select</button>
                 </div>
             </div>
         </div>
     </div>
+    {!! Form::open(array('method'=>'POST', 'id'=>'selectSchemeForm')) !!}
+        <input type="hidden" id="scheme" name="scheme">
+    {!! Form::close() !!}
+
+    <script>
+        function setScheme(scheme){
+            jQuery(document).ready(function(){
+                $("#scheme").val(scheme);
+                $('#selectSchemeForm').submit();
+            });
+        }
+    </script>
 </div>
 @endsection

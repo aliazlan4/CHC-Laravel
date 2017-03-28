@@ -33,10 +33,15 @@ Route::get('/login/passwordImage', 'loginController@passwordImage');
 Route::get('/register', 'registerController@showRegisterScreen');
 Route::post('/register', 'registerController@checkInfo');
 Route::get('/register/chooseScheme', 'registerController@showSchemes');
+Route::post('/register/chooseScheme', 'registerController@setScheme');
+Route::get('/register/chooseIcongroup', 'registerController@showIcongroups');
+Route::post('/register/chooseIcongroup', 'registerController@setIcongroup');
+Route::get('/register/chooseIcons', 'registerController@showIcons');
+Route::post('/register/chooseIcons', 'registerController@setIcons');
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/icons/{filename}', 'iconController@getIcon');
+Route::get('/icons/get/{id}/{width?}', 'iconController@getIcon');
 Route::post('/icons/addIconGroup', 'iconController@addIconGroup');
 Route::post('/icons/addIcons', 'iconController@addIcons');
 Route::post('/icons/otherSettings', 'iconController@saveOtherSettings');

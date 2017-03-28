@@ -14,13 +14,24 @@ use Image;
 
 class iconController extends Controller
 {
-    public function getIcon($filename){
-        $path = storage_path('icons/' . $filename);
+    public function getIcon($id, $width = null){
+        $icon = Icon::where('id', $id)->first();
+
+        $path = storage_path('icons/' . $icon->name);
 
         if(!File::exists($path))
             abort(404);
 
-        return Image::make($path)->response();
+        $img = Image::make($path);
+
+        if($width != null){
+            $img->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        }
+
+        return $img->response();
     }
 
     public function addIconGroup(Request $request){
@@ -41,13 +52,24 @@ class iconController extends Controller
             $name = md5_file($icon->getRealPath()) . "." . $extension;
             $icon->move($destinationPath, $name);
 
-            Icon::create([
+            $newIcon = Icon::create([
                 'name' => $name,
                 'iconGroup' => $iconGroup
             ]);
+
+            $this->resizeIcon($newIcon);
         }
 
         return back();
+    }
+
+    public function resizeIcon($icon){
+        $temp = Image::make(storage_path('icons/' . $icon->name));
+        $temp->resize(120, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $temp->save(null, 30);
     }
 
     public function saveOtherSettings(Request $request){
