@@ -25,7 +25,7 @@
                                 <input type="text" class="form-control" id="username" name="username" value="{!! session('username') !!}" autofocus>
 
                                 @if ($errors->has('username'))
-                                    <span class="col-sm-offset-4 col-sm-6">
+                                    <span>
                                         <strong>Username Doesn't Exist</strong>
                                     </span>
                                 @endif

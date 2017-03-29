@@ -20,8 +20,24 @@
         ]) !!};
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+
+    <style>
+        .no-js #loader { display: none;  }
+        .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+        .se-pre-con {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url(https://media.giphy.com/media/3oKIPexHObhevCXHYA/giphy.gif) center no-repeat #fff;
+        }
+    </style>
 </head>
 <body>
+    <div class="se-pre-con"></div>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -88,5 +104,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        window.onload = function() {
+            $(".se-pre-con").fadeOut("slow");
+        };
+    </script>
 </body>
 </html>
