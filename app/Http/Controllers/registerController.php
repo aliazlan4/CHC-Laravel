@@ -6,12 +6,16 @@ use App\Icon;
 use App\iconGroup;
 use App\User;
 
+use Auth;
 use Validator;
 
 use Illuminate\Http\Request;
 
 class registerController extends Controller
 {
+    protected $redirectTo = '/home';
+
+
     function showRegisterScreen(){
         // Return user to home if he is already logged in!
 
@@ -104,9 +108,17 @@ class registerController extends Controller
             'password' => $password
         ]);
 
+        return $this->loggingInUser();
+    }
+
+    private function loggingInUser(){
+        $user = User::where('username', session('username'))->first();
+
         session()->flush();
 
-        return redirect('/login');
+        Auth::login($user);
+
+        return redirect()->intended($this->redirectTo);
     }
 
     function validator($data){

@@ -57,7 +57,7 @@ class helperController extends Controller
         $columnSize = floor(session('screenWidth') / $columns);
         $rowSize = floor(session('screenHeight') / $rows);
 
-        $img = Image::canvas(session('screenWidth'), session('screenHeight'), '#' . Cache::get('chcBackground', '333333'));
+        $img = Image::canvas(session('screenWidth'), session('screenHeight'), '#' . Cache::get('chcBackground', 'A2BDD3'));
 
         $count = 0;
         for($i = 0; $i < $rows; $i++){
@@ -82,13 +82,23 @@ class helperController extends Controller
         $text2 = "Wrong Trys: " . session('chcWrongTrys') . "/" . Cache::get('chcWrongTrys', 3);
         $img->text($text1, 25, 30, function($font) {
             $font->file(public_path('fonts/Raleway/Raleway-Black.ttf'));
-            $font->size(30);
-            $font->color('#fdf6e3');
+            $font->size(34.5);
+            $font->color(array(255, 255, 255, 0.3));
+        });
+        $img->text($text1, 26, 31, function($font) {
+            $font->file(public_path('fonts/Raleway/Raleway-Black.ttf'));
+            $font->size(34);
+            $font->color('#000000');
         });
         $img->text($text2, 25, 65, function($font) {
             $font->file(public_path('fonts/Raleway/Raleway-Black.ttf'));
-            $font->size(30);
-            $font->color('#fdf6e3');
+            $font->size(34.5);
+            $font->color(array(255, 255, 255, 0.3));
+        });
+        $img->text($text2, 26, 66, function($font) {
+            $font->file(public_path('fonts/Raleway/Raleway-Black.ttf'));
+            $font->size(34);
+            $font->color('#000000');
         });
 
         $this->createConvexHull();
@@ -120,14 +130,16 @@ class helperController extends Controller
         $scheme = User::where('username', session('username'))->first()->passwordScheme;
 
         switch ($scheme){
-            case 'chc':
+            case 'CHC':
                 return true;
-            case 'cochc':
+            case 'coCHC':
                 $center = $this->getCenter();
                 $distance = $this->getDistance($click, $center);
                 if($distance <= (Cache::get('chcCentroidThreshold', 100) / 2))
                     return true;
                 return false;
+            case 'rogueCHC':
+                return true;
             default:
                 return false;
         }

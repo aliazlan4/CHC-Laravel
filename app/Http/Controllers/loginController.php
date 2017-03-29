@@ -7,13 +7,17 @@ use App\User;
 use Image;
 use Cache;
 use Session;
+use Auth;
 use Illuminate\Http\Request;
 
 class loginController extends helperController
 {
+    protected $redirectTo = '/home';
+
+
     public function showUsernameScreen(){
         // Return user to home if he is already logged in!
-        
+
         return view('chcAuth.login_username');
     }
 
@@ -56,9 +60,9 @@ class loginController extends helperController
                 session(['chcWrongTrys' => session('chcWrongTrys')+1]);
 
             if(session('chcRound') > Cache::get('chcRounds', 5)){
-                return view('home');
+                return $this->loggingInUser();
             }
-            else if(session('chcWrongTrys') > Cache::get('chcWrongTrys', 3)){
+            else if(session('chcWrongTrys') >= Cache::get('chcWrongTrys', 3)){
                 session()->flush();
                 return redirect('login')->withErrors(['wrongPassword'=>'Password is Incorrect']);
             }
@@ -72,5 +76,16 @@ class loginController extends helperController
         }
     }
 
+    private function loggingInUser(){
+        $user = User::where('username', session('username'))->first();
 
+        session()->flush();
+
+        Auth::login($user);
+
+        if($user->is_admin)
+            return redirect(route('admin'));
+
+        return redirect()->intended($this->redirectTo);
+    }
 }

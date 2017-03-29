@@ -8,6 +8,7 @@ use App\iconGroup;
 use File;
 use Cache;
 use Session;
+use Auth;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Image;
@@ -35,11 +36,13 @@ class iconController extends Controller
     }
 
     public function addIconGroup(Request $request){
-        iconGroup::create([
-            'name' => $request->groupName
-        ]);
+        if($this->userIsAdmin()){
+            iconGroup::create([
+                'name' => $request->groupName
+            ]);
 
-        return back();
+            return back();
+        }
     }
 
     public function addIcons(Request $request){
@@ -83,5 +86,12 @@ class iconController extends Controller
 
         session()->flush();
         return back();
+    }
+
+    private function userIsAdmin(){
+        if(Auth::check() && Auth::user()->is_admin)
+            return true;
+        else
+            return redirect('/');
     }
 }
